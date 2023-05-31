@@ -315,7 +315,7 @@ function showModalByScroll(){
         const res = await fetch(url, {
             method: "POST",
             headers: {
-                //все будем постит в формате json (тк json-сервер) 
+                //все будем постит в формате json (тк json-сервер)
                 'Content-type': 'application/json'
             },
             //data - данные, которые будут поститься
