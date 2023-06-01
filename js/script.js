@@ -248,8 +248,12 @@ function showModalByScroll(){
        //дожидаемся его окончания и ттрансформируем  его в объект
         return await res.json();
     };
-    
-    //вызов функции геренации карточек из bd.json на основе класса
+
+
+
+
+    // //ЭТО РАБОЧАЯ ВЕРСИЯ генерации карточек !!!
+    // // вызов функции геренации карточек из bd.json на основе класса
     // getResource('http://localhost:3000/menu')
     //     .then(data =>{
     //         data.forEach(({img, alting, title, descr, price}) =>{
@@ -257,37 +261,17 @@ function showModalByScroll(){
     //         });
     //     });
      
-    //*****
-    //ФУНКЦИЯ динамического создания элементов на странице.БЕЗ классов
-    getResource('http://localhost:3000/menu')
-    //вызов функции createCard()
-    .then(data => createCard(data));
-    //сама ф-я
-    function createCard(data){
-        //перебор в массиве и деструктуризация свойств объекта (элемента массива)
-        data.forEach(({img, alting, title, descr, price}) =>{
-            //создаем div
-            const element = document.createElement('div');
-            //присваеваем ему класс
-            element.classList.add('menu__item');
-            //в innerHTML подставляем верстку из класса создания карточки и меняем название аргументов
-            element.innerHTML =`
-                <div class="menu__item">
-                            <img src=${img} alt=${alting}>
-                            <h3 class="menu__item-subtitle">${title}</h3>
-                            <div class="menu__item-descr">${descr}</div>
-                            <div class="menu__item-divider"></div>
-                            <div class="menu__item-price">
-                                <div class="menu__item-cost">Цена:</div>
-                                <div class="menu__item-total"><span>${price}</span> РУБ/день</div>
-                            </div>
-                        </div>  
+    //*** БИБЛИОТЕКА Axios
+    //переменная axios идет из подключенной библиотеки
+    axios.get('http://localhost:3000/menu')
+    
+     .then(data => {
+        //data.data. -потому что мы обращаемся к тем данным, которые получили, а не к общему объекту 
+        data.data.forEach(({img, alting, title, descr, price}) =>{
+                    new MenuCard(img, alting, title, descr, price, '.menu .container').render();
+                });
+            });
 
-            `;
-            //ищем радительский элемент и помещаем на страницу
-            document.querySelector('.menu .container').append(element);
-    });
-}
     
 // * * * 
 //053
@@ -328,7 +312,7 @@ function showModalByScroll(){
 
 
     
-//функция постинга данных - bindpostDate с параметром form - для дальнейшей привязки к обработчику событий
+    //функция постинга данных - bindpostDate с параметром form - для дальнейшей привязки к обработчику событий
     function bindpostData(form){
         //событие submit срабатывает когда мы пытаемся отправить запол форму. 
         //Есть встроенное поведение кнопки формы с типом submit - с перезагрузкой страницы, но мы отключим его для своей программы действий
@@ -383,40 +367,40 @@ function showModalByScroll(){
 
     //054
     //функция модального окна "Спасибо"
-function showThanksModal(message){
-    const prevModalDialog = document.querySelector('.modal__dialog'); //находим модальное окно (с текстом)
-    prevModalDialog.classList.add('hide'); //скрываем окно имеющимся классом 
-    //теперь открываем пустой блок модального окна 
-    openModal(); //ф-ция открытия модального окна
-    //создание контента модального окна спасибо
-    const thanksModal = document.createElement('div'); 
-    thanksModal.classList.add('modal__dialog');
-    //div class="modal__content" - класс обертка, ✖ - для закрытия, modal-title - заголовок, в которые мы должны поместить состояние загрузки
-    //с ✖ созданный динамически не будет реагировать на те действия, которые были созданны для него ранее
-    thanksModal.innerHTML = `
-        <div class="modal__content">
-            <div class='modal__close' data-close>✖</div>
-            <div class='modal__title'>${message}</div>
-    </div>
-    `;
-    //получаем модальное окно и добавл на страницу
-    document.querySelector('.modal').append(thanksModal);
-    //удаляем окно-спасибо через 4с
-    setTimeout(()=>{thanksModal.remove();
-    prevModalDialog.classList.add('show'); //показываем модальное окно
-    prevModalDialog.classList.remove('hide'); //удаляем класс сокрытия модальное окно
-    closeModal(); //и закрываем модальное окно
-    },  4000);
-}
+    function showThanksModal(message){
+        const prevModalDialog = document.querySelector('.modal__dialog'); //находим модальное окно (с текстом)
+        prevModalDialog.classList.add('hide'); //скрываем окно имеющимся классом 
+        //теперь открываем пустой блок модального окна 
+        openModal(); //ф-ция открытия модального окна
+        //создание контента модального окна спасибо
+        const thanksModal = document.createElement('div'); 
+        thanksModal.classList.add('modal__dialog');
+        //div class="modal__content" - класс обертка, ✖ - для закрытия, modal-title - заголовок, в которые мы должны поместить состояние загрузки
+        //с ✖ созданный динамически не будет реагировать на те действия, которые были созданны для него ранее
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class='modal__close' data-close>✖</div>
+                <div class='modal__title'>${message}</div>
+        </div>
+        `;
+        //получаем модальное окно и добавл на страницу
+        document.querySelector('.modal').append(thanksModal);
+        //удаляем окно-спасибо через 4с
+        setTimeout(()=>{thanksModal.remove();
+        prevModalDialog.classList.add('show'); //показываем модальное окно
+        prevModalDialog.classList.remove('hide'); //удаляем класс сокрытия модальное окно
+        closeModal(); //и закрываем модальное окно
+        },  4000);
+    }
 
-fetch('http://localhost:3000/menu')
-    .then(data => data.json())
-    .then(res => console.log(res));
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res));
 
 
 
 
     // end
-    });
+});
 
 
