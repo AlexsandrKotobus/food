@@ -271,7 +271,6 @@ function showModalByScroll(){
                     new MenuCard(img, alting, title, descr, price, '.menu .container').render();
                 });
             });
-
     
 // * * * 
 //053
