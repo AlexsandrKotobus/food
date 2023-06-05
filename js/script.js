@@ -399,6 +399,90 @@ function showModalByScroll(){
 
 
 
+
+//******************************
+//        СЛАЙДЕР
+//получаем элементы со страницы
+const   slides = document.querySelectorAll('.offer__slide'), //количество слайдов
+        prev = document.querySelector('.offer__slider-prev'),   //кнопка пред
+        next = document.querySelector('.offer__slider-next'),   //кнопка следующий
+        total= document.querySelector('#total'),            // общее кол-во слайдов      
+        current = document.querySelector('#current');       //индекс текущего слайда
+
+    // индекс, определяющий начальное положение в слайдере 
+    let slideIndex = 1; 
+//первоначальное инициирование слайда
+    showSlides(slideIndex);
+//Подстановка количества файлов
+//total - всего, если меньше 10 то добавляем 0 сначала
+//поместить сюда проверку надо потому, чтобы не мигала при перезагрузке цифра
+    if(slides.length < 0){
+        total.textContent = `0${slides.length}`;
+    }
+    //если больше 10 то оставляем так
+    else{ total.textContent = slides.length;}
+
+
+    //функция по показу и сокрытию слайдов
+    //n = slideIndex
+    function showSlides(n){
+        //учет граничного значения - если индекс станет больше длины псевдомассива слайдов
+        if(n > slides.length){
+            slideIndex = 1; //идем в начало слайдов
+        }
+        //учет граничного значения - если индекс станет меньше длины псевдомассива слайдов
+        if(n < 1){
+            slideIndex = slides.length; //идем в конец слайдов
+        }
+        //скрываем все слайды и отображаем нужный
+        slides.forEach(item => item.style.display = 'none'); //скрываем все слайды
+        slides[slideIndex -  1].style.display = 'block'; //показываем слайд с текущим индексом (-1 - мы компенсируем номер)
+        // изменение числа-индекса текущего слайда
+        if(slides.length < 0){
+            current.textContent = `0${slideIndex}`;
+        }
+        //если больше 10 то оставляем так
+        else{ current.textContent = slideIndex}
+    }
+    //функция изменения слайд-индекса
+function plusSlide(n){
+    showSlides(slideIndex += n)
+}
+prev.addEventListener('click', () => {
+    console.log(111111111111);
+    plusSlide(-1);
+});
+next.addEventListener('click', () => {
+    console.log(22222222222);
+    plusSlide(1);
+}); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // end
 });
 
