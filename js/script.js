@@ -401,66 +401,157 @@ function showModalByScroll(){
 
 
 //******************************
-//        СЛАЙДЕР
+//        СЛАЙДЕР #1
 //получаем элементы со страницы
+// const   slides = document.querySelectorAll('.offer__slide'), //количество слайдов
+//         prev = document.querySelector('.offer__slider-prev'),   //кнопка пред
+//         next = document.querySelector('.offer__slider-next'),   //кнопка следующий
+//         total= document.querySelector('#total'),            // общее кол-во слайдов      
+//         current = document.querySelector('#current');       //индекс текущего слайда
+
+//     // индекс, определяющий начальное положение в слайдере 
+//     let slideIndex = 1; 
+// //первоначальное инициирование слайда
+//     showSlides(slideIndex);
+// //Подстановка количества файлов
+// //total - всего, если меньше 10 то добавляем 0 сначала
+// //поместить сюда проверку надо потому, чтобы не мигала при перезагрузке цифра
+//     if(slides.length < 0){
+//         total.textContent = `0${slides.length}`;
+//     }
+//     //если больше 10 то оставляем так
+//     else{ total.textContent = slides.length;}
+
+
+//     //функция по показу и сокрытию слайдов
+//     //n = slideIndex
+//     function showSlides(n){
+//         //учет граничного значения - если индекс станет больше длины псевдомассива слайдов
+//         if(n > slides.length){
+//             slideIndex = 1; //идем в начало слайдов
+//         }
+//         //учет граничного значения - если индекс станет меньше длины псевдомассива слайдов
+//         if(n < 1){
+//             slideIndex = slides.length; //идем в конец слайдов
+//         }
+//         //скрываем все слайды и отображаем нужный
+//         slides.forEach(item => item.style.display = 'none'); //скрываем все слайды
+//         slides[slideIndex -  1].style.display = 'block'; //показываем слайд с текущим индексом (-1 - мы компенсируем номер)
+//         // изменение числа-индекса текущего слайда
+//         if(slides.length < 0){
+//             current.textContent = `0${slideIndex}`;
+//         }
+//         //если больше 10 то оставляем так
+//         else{ current.textContent = slideIndex}
+//     }
+//     //функция изменения слайд-индекса
+// function plusSlide(n){
+//     showSlides(slideIndex += n)
+// }
+// prev.addEventListener('click', () => {
+//     console.log(111111111111);
+//     plusSlide(-1);
+// });
+// next.addEventListener('click', () => {
+//     console.log(22222222222);
+//     plusSlide(1);
+// }); 
+//конец слайдера №1
+
+// **********************************
+//           СЛАЙДЕР №2 -карусель
+
 const   slides = document.querySelectorAll('.offer__slide'), //количество слайдов
         prev = document.querySelector('.offer__slider-prev'),   //кнопка пред
         next = document.querySelector('.offer__slider-next'),   //кнопка следующий
         total= document.querySelector('#total'),            // общее кол-во слайдов      
-        current = document.querySelector('#current');       //индекс текущего слайда
+        current = document.querySelector('#current'),       //индекс текущего слайда
+        slidesWrapper = document.querySelector('.offer__slider-wrapper'), //главная обертка
+        slidesField = document.querySelector('.offer__slider-inner'),     //обертка слайдов
+        width = window.getComputedStyle(slidesWrapper).width;   //переменная будет хранить шрину внешнего блока .offer__slider-wrapper
 
-    // индекс, определяющий начальное положение в слайдере 
-    let slideIndex = 1; 
-//первоначальное инициирование слайда
-    showSlides(slideIndex);
-//Подстановка количества файлов
-//total - всего, если меньше 10 то добавляем 0 сначала
-//поместить сюда проверку надо потому, чтобы не мигала при перезагрузке цифра
-    if(slides.length < 0){
-        total.textContent = `0${slides.length}`;
-    }
-    //если больше 10 то оставляем так
-    else{ total.textContent = slides.length;}
-
-
-    //функция по показу и сокрытию слайдов
-    //n = slideIndex
-    function showSlides(n){
-        //учет граничного значения - если индекс станет больше длины псевдомассива слайдов
-        if(n > slides.length){
-            slideIndex = 1; //идем в начало слайдов
-        }
-        //учет граничного значения - если индекс станет меньше длины псевдомассива слайдов
-        if(n < 1){
-            slideIndex = slides.length; //идем в конец слайдов
-        }
-        //скрываем все слайды и отображаем нужный
-        slides.forEach(item => item.style.display = 'none'); //скрываем все слайды
-        slides[slideIndex -  1].style.display = 'block'; //показываем слайд с текущим индексом (-1 - мы компенсируем номер)
-        // изменение числа-индекса текущего слайда
-        if(slides.length < 0){
-            current.textContent = `0${slideIndex}`;
-        }
-        //если больше 10 то оставляем так
-        else{ current.textContent = slideIndex}
-    }
-    //функция изменения слайд-индекса
-function plusSlide(n){
-    showSlides(slideIndex += n)
+//  
+   let slideIndex = 1;  //для цифры №слайда в окошке
+   let offset = 0; //считает отступ вправо или лево
+   //НАЧАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ
+   //Номера слайдов для подстановки на страницу - 
+   if(slides.length < 0){
+    total.textContent = `0${slides.length}`; //итого слайдов
+    current.textContent = `0${slideIndex}`;  //текущий
 }
-prev.addEventListener('click', () => {
-    console.log(111111111111);
-    plusSlide(-1);
+//если больше 10 то оставляем так
+else{ total.textContent = slides.length; //итого слайдов
+    current.textContent = slideIndex;    //текущий
+}
+
+slidesField.style.width = 100 * slides.length + '%'; //установим блоку ширину, знак % - для css
+slidesField.style.display = 'flex'; //выравниваем все слайды по горизонтали
+slidesField.style.transition = '0.5s all';  
+slidesWrapper.style.overflow = 'hidden'; //скрываем все "торчащие" из окна слайды
+
+slides.forEach(slide =>{
+    slide.style.width = width; //устанавливаем каждому слайду одинаковую ширину
+    
+
 });
-next.addEventListener('click', () => {
-    console.log(22222222222);
-    plusSlide(1);
-}); 
 
 
+//нажали на кнопку назад
+next.addEventListener('click', ()=>{
+    //предусматриваем конечный вариант - когда дошли до края - возврашаем слайдер в начаьное положение
+    // +width.slice(0, width.length - 2)  - плюс перед width меняет формат на числовой, а метод slice вырезает все нужное - с 0-вого элемента до длина width - 2 последних символа.
+    if(offset == +width.slice(0, width.length - 2) * (slides.length -1)){
+        offset = 0;
+    }
+    else{
+        offset += +width.slice(0, width.length - 2);
+    }
+    slidesField.style.transform = `translateX(-${offset}px)`;
+    //меняем индекс слайда
+    if(slideIndex == slides.length){ //если мы дошли до конца - то иди в слайд номер 1
+        slideIndex = 1;
+    }
+    else{
+        slideIndex++; //или +1 слайд
+    }
+    //изменение индекса текущего слайда
+    if(slides.length < 10){
+        current.textContent = `0${slideIndex}`; //с подставлением 0 для однозначного числа
+    }
+    else{
+        current.textContent = slideIndex; //для двухзначного числа
+    }
+});
 
-
-
+//нажали на кнопку назад
+prev.addEventListener('click', ()=>{
+    //предусматриваем граничный вариант - когда дошли до первого -то следующим возврашаем слайдер в конечное, последее положение
+    //если offset равен 0, (причем мы сравниваем ==, а не присваиваем =)
+    // +width.slice(0, width.length - 2)  - плюс перед width меняет формат на числовой, а метод slice вырезает все нужное - с 0-вого элемента до длина width - 2 последних символа.
+    if(offset == 0){
+        //то в offset записываем последний слайд
+        offset = +width.slice(0, width.length - 2) * (slides.length -1)
+    }
+    //если слайд не первый - мы отнимаем ширину слайда
+    else{
+        offset -= +width.slice(0, width.length - 2);
+    }
+    slidesField.style.transform = `translateX(-${offset}px)`;
+    //изменение индекса текущего слайда
+    if(slideIndex == 1){ //если мы на первом слайде - то иди в последний слайд
+        slideIndex = slides.length;
+    }
+    else{
+        slideIndex--; //или -1 слайд
+    }
+    if(slides.length < 10){
+        current.textContent = `0${slideIndex}`; //с подставлением 0 для однозначного числа
+    }
+    else{
+        current.textContent = slideIndex; //для двухзначного числа
+    }
+});
+   
 
 
 
