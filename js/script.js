@@ -554,7 +554,8 @@ next.addEventListener('click', ()=>{
     else{
         offset += +width.slice(0, width.length - 2);
     }
-    slidesField.style.transform = `translateX(-${offset}px)`;
+    caruselMove(offset); //смещаем карусель слайдов
+   
     //меняем индекс слайда
     if(slideIndex == slides.length){ //если мы дошли до конца - то иди в слайд номер 1
         slideIndex = 1;
@@ -562,15 +563,10 @@ next.addEventListener('click', ()=>{
     else{
         slideIndex++; //или +1 слайд
     }
-    //изменение индекса текущего слайда
-    if(slides.length < 10){
-        current.textContent = `0${slideIndex}`; //с подставлением 0 для однозначного числа
-    }
-    else{
-        current.textContent = slideIndex; //для двухзначного числа
-    }
-    dots.forEach(dot => dot.style.opacity = '0.5');
-    dots[slideIndex -1].style.opacity = '1';
+    
+    currentSl(slides.length, current, slideIndex); // изменение текущего индикатора
+    dotActive(slideIndex); //выделение активной точки
+   
 });
 
 //нажали на кнопку назад
@@ -586,7 +582,9 @@ prev.addEventListener('click', ()=>{
     else{
         offset -= +width.slice(0, width.length - 2);
     }
-    slidesField.style.transform = `translateX(-${offset}px)`;
+
+    caruselMove(offset); //смещаем карусель слайдов
+
     //изменение индекса текущего слайда
     if(slideIndex == 1){ //если мы на первом слайде - то иди в последний слайд
         slideIndex = slides.length;
@@ -594,14 +592,9 @@ prev.addEventListener('click', ()=>{
     else{
         slideIndex--; //или -1 слайд
     }
-    if(slides.length < 10){
-        current.textContent = `0${slideIndex}`; //с подставлением 0 для однозначного числа
-    }
-    else{
-        current.textContent = slideIndex; //для двухзначного числа
-    }
-    dots.forEach(dot => dot.style.opacity = '0.5');
-    dots[slideIndex -1].style.opacity = '1';
+    currentSl(slides.length, current, slideIndex); // изменение текущего индикатора
+    dotActive(slideIndex); //выделение активной точки
+   
 });
    
 //Перещелкивание слайдов при нажатии на точку
@@ -611,30 +604,34 @@ dots.forEach(dot =>{
         const slideTo = e.target.getAttribute('data-slide-to');
         slideIndex = slideTo; //устанавливаем слайд индекс
         offset = +width.slice(0, width.length - 2) * (slideTo -1); //устанавливаем смещение - по формуле но число берем = slideTo 
-        slidesField.style.transform = `translateX(-${offset}px)`; //смещаем карусель слайдов
-        // изменение текущего индикатора
-        if(slides.length < 10){
-            current.textContent = `0${slideIndex}`; //с подставлением 0 для однозначного числа
-        }
-        else{
-            current.textContent = slideIndex; //для двухзначного числа
-        }
-
-        dots.forEach(dot => dot.style.opacity = '0.5'); //стили точкам - всем
-        dots[slideIndex -1].style.opacity = '1';    //стиль активной точке
-
-
+        caruselMove(offset); //смещаем карусель слайдов
+      
+        currentSl(slides.length, current, slideIndex); // изменение текущего индикатора
+        dotActive(slideIndex); //выделение активной точки
 
     })
 })
 
+function dotActive(ind){ //выделение активной точки
+    dots.forEach(dot => dot.style.opacity = '0.5'); //стили точкам - всем
+    dots[ind -1].style.opacity = '1';    //стиль активной точке
+};
 
+function caruselMove(moveStep){ //расчет сдвига карусели
+    slidesField.style.transform = `translateX(-${moveStep}px)`; //смещаем карусель слайдов
+}
 
+function currentSl(slLenght, cur, slIn){
+        // изменение текущего индикатора
+        if(slLenght < 10){
+            cur.textContent = `0${slIn}`; //с подставлением 0 для однозначного числа
+        }
+        else{
+            cur.textContent = slIn; //для двухзначного числа
+        }
 
-
-
-
-
+}
+        
 
 
 
