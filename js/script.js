@@ -462,6 +462,7 @@ function showModalByScroll(){
 //           СЛАЙДЕР №2 -карусель
 
 const   slides = document.querySelectorAll('.offer__slide'), //количество слайдов
+        slider = document.querySelector('.offer__slider'),  //весь слайд - с индикаторами и слайдами
         prev = document.querySelector('.offer__slider-prev'),   //кнопка пред
         next = document.querySelector('.offer__slider-next'),   //кнопка следующий
         total= document.querySelector('#total'),            // общее кол-во слайдов      
@@ -494,6 +495,53 @@ slides.forEach(slide =>{
     
 
 });
+//доработка ДЛЯ точек
+slider.style.position = 'relative';  //установка для всего слайда позиции
+const   indicators = document.createElement('ol'), //создаем обертку для точек
+        dots  = [];  //создаем массив для точек (которые создадим далее)
+indicators.classList.add('carusel-indicator');  //создаем класс
+//создаем динамически стили классу carusel-indicator
+indicators.style.cssText = `
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    display: flex;
+    justify-content: center;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+`
+slider.append(indicators); //добавляем на страницу
+//в цикле создаем точку, атрибут и 
+for(let i = 0; i < slides.length; i++){//перебираем все точки 
+    const dot = document.createElement('li'); //создаем элемент
+    dot.setAttribute('data-slide-to', i+1); //добавляем ему атрибут с уникальным номером
+    dot.style.cssText  =`
+        box-sizing: content-box;
+        flex: 0 1 auto;
+        width: 30px;
+        height: 6px;
+        margin-right: 3px;
+        margin-left: 3px;
+        cursor: pointer;
+        background-color: #fff;
+        background-clip: padding-box;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        opacity: .5;
+        transition: opacity .6s ease;
+    `
+    if(i == 0){
+        dot.style.opacity = 1;
+    }
+    indicators.append(dot);
+    dots.push(dot);   //пушим точки в массив
+}
+
+
+
 
 
 //нажали на кнопку назад
@@ -521,6 +569,8 @@ next.addEventListener('click', ()=>{
     else{
         current.textContent = slideIndex; //для двухзначного числа
     }
+    dots.forEach(dot => dot.style.opacity = '0.5');
+    dots[slideIndex -1].style.opacity = '1';
 });
 
 //нажали на кнопку назад
@@ -530,7 +580,7 @@ prev.addEventListener('click', ()=>{
     // +width.slice(0, width.length - 2)  - плюс перед width меняет формат на числовой, а метод slice вырезает все нужное - с 0-вого элемента до длина width - 2 последних символа.
     if(offset == 0){
         //то в offset записываем последний слайд
-        offset = +width.slice(0, width.length - 2) * (slides.length -1)
+        offset = +width.slice(0, width.length - 2) * (slides.length -1);
     }
     //если слайд не первый - мы отнимаем ширину слайда
     else{
@@ -550,9 +600,33 @@ prev.addEventListener('click', ()=>{
     else{
         current.textContent = slideIndex; //для двухзначного числа
     }
+    dots.forEach(dot => dot.style.opacity = '0.5');
+    dots[slideIndex -1].style.opacity = '1';
 });
    
+//Перещелкивание слайдов при нажатии на точку
+dots.forEach(dot =>{
+    dot.addEventListener('click', (e) =>{
+        //будет получать атрибут 'data-slide-to', i+1) с уникальным номером
+        const slideTo = e.target.getAttribute('data-slide-to');
+        slideIndex = slideTo; //устанавливаем слайд индекс
+        offset = +width.slice(0, width.length - 2) * (slideTo -1); //устанавливаем смещение - по формуле но число берем = slideTo 
+        slidesField.style.transform = `translateX(-${offset}px)`; //смещаем карусель слайдов
+        // изменение текущего индикатора
+        if(slides.length < 10){
+            current.textContent = `0${slideIndex}`; //с подставлением 0 для однозначного числа
+        }
+        else{
+            current.textContent = slideIndex; //для двухзначного числа
+        }
 
+        dots.forEach(dot => dot.style.opacity = '0.5'); //стили точкам - всем
+        dots[slideIndex -1].style.opacity = '1';    //стиль активной точке
+
+
+
+    })
+})
 
 
 
