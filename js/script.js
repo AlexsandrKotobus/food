@@ -476,13 +476,7 @@ const   slides = document.querySelectorAll('.offer__slide'),    //количес
         //!!!регулярными выражениями можно было бы еще сделать замену всех НЕ чисел на пустоту
         //width.replace(/\D/g, ''); - такое выражение вернет сразу число
 
-    
-// console.log("width");
-// //const w2 = width.toString();
-
-// const w3 = +(window.getComputedStyle(slidesWrapper).width).replace(/\D/g, '');
-
-// console.log(w3);
+   
 
 //  
    let slideIndex = 1;  //для цифры №слайда в окошке
@@ -570,12 +564,7 @@ next.addEventListener('click', ()=>{
     }
 
 
-    // if(offset == +width.slice(0, width.length - 2) * (slides.length -1)){
-    //     offset = 0;
-    // }
-    // else{
-    //     offset += +width.slice(0, width.length - 2);
-    // }
+    
     caruselMove(offset); //смещаем карусель слайдов
    
     //меняем индекс слайда
@@ -588,12 +577,7 @@ next.addEventListener('click', ()=>{
         slideIndex++; //или +1 слайд
     }
     
-    // if(slideIndex == slides.length){ //если мы дошли до конца - то иди в слайд номер 1
-    //     slideIndex = 1;
-    // }
-    // else{
-    //     slideIndex++; //или +1 слайд
-    // }
+    
 
     currentSl(slides.length, current, slideIndex); // изменение текущего индикатора
     dotActive(slideIndex); //выделение активной точки
@@ -614,17 +598,7 @@ prev.addEventListener('click', ()=>{
         offset -= width;
     }
 
-    /*
-    if(offset == 0){
-        //то в offset записываем последний слайд
-        offset = +width.slice(0, width.length - 2) * (slides.length -1);
-    }
-    //если слайд не первый - мы отнимаем ширину слайда
-    else{
-        offset -= +width.slice(0, width.length - 2);
-    }
-
-    */
+    
 
     caruselMove(offset); //смещаем карусель слайдов
 
