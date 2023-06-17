@@ -676,7 +676,7 @@ function calcTotal(){
 
 }
 
-calcTotal();
+ calcTotal();  //
 //получение данных элементов
 function getStaticInformation(parentSelector, activeClass){
     //получаем элементы внутри родительского блока - 
@@ -690,8 +690,9 @@ function getStaticInformation(parentSelector, activeClass){
             if(e.target.getAttribute('data-ratio')){ //если атрибут есть
                 ratio = +e.target.getAttribute('data-ratio'); //мы получаем его значение
             } else {
-                sex = e.target.getAttribute('id'); //если нет атрибута берем id
+                sex = e.target.getAttribute('id'); //если нет атрибута берем id           
             }
+            
             console.log(ratio, sex); //для проверки
             //работа с классами активности
             elements.forEach(elem =>{ //сначала перебираем все 
@@ -700,6 +701,7 @@ function getStaticInformation(parentSelector, activeClass){
             e.target.classList.add(activeClass); //добавляем класс активности объекту событий
             calcTotal(); //вызов главной функции для пересчета
         });
+        
     });
 }
 //вызов метода выбора с 2ми разными (строка 1 и строка 3) родительскими блоками
