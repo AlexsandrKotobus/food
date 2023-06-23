@@ -13,6 +13,8 @@ window.addEventListener('DOMContentLoaded', ()=>{
     modal();
     slider();
     timer();
+    
 });
+
 
 
