@@ -92,4 +92,4 @@ function forms(){
 
 }
 
-module.exports = forms(); 
+module.exports = forms; 

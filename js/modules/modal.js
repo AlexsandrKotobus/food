@@ -98,4 +98,4 @@ function showModalByScroll(){
 
 
 }
-module.exports = modal(); 
+module.exports = modal; 

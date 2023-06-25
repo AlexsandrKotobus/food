@@ -132,4 +132,4 @@ getDinamucInformation('#age');
 
 
 }
-module.exports = calc(); 
+module.exports = calc; 

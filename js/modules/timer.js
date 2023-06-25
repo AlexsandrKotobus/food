@@ -1,7 +1,7 @@
 ﻿function timer(){
 // * * * * * * * * * * * * * * * * * 
 //таймер
-const deadline   = '01 05 2023'; //начальная точка - !месяц - день - год!, строку в таком формате часто возвращают инпуты
+const deadline   = '06 30 2023'; //начальная точка - !месяц - день - год!, строку в таком формате часто возвращают инпуты
 //Функция, определяющая разницу между deadline и текущим временем
 const tInM = Date.parse(deadline), //парсим строку 
 tInUsualFormat =  new Date(tInM); //выводим из миллисек дату
@@ -69,4 +69,4 @@ setClock('.timer', deadline);
 
 // end таймер
 }
-module.exports = timer();
+module.exports = timer;

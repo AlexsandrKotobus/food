@@ -194,4 +194,4 @@ function currentSl(slLenght, cur, slIn){
 }
        
 }
-module.exports = slider(); 
+module.exports = slider; 

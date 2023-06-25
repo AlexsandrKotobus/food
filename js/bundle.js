@@ -141,7 +141,7 @@ getDinamucInformation('#age');
 
 
 }
-module.exports = calc(); 
+module.exports = calc; 
 
 /***/ }),
 
@@ -220,7 +220,7 @@ module.exports = calc();
 //                     new MenuCard(img, alting, title, descr, price, '.menu .container').render();
 //                 });
 //             });
-module.exports = cards();
+module.exports = cards;
 
 /***/ }),
 
@@ -324,7 +324,7 @@ function forms(){
 
 }
 
-module.exports = forms(); 
+module.exports = forms; 
 
 /***/ }),
 
@@ -434,7 +434,7 @@ function showModalByScroll(){
 
 
 }
-module.exports = modal(); 
+module.exports = modal; 
 
 /***/ }),
 
@@ -640,7 +640,7 @@ function currentSl(slLenght, cur, slIn){
 }
        
 }
-module.exports = slider(); 
+module.exports = slider; 
 
 /***/ }),
 
@@ -699,7 +699,7 @@ module.exports = tabs;
 ﻿function timer(){
 // * * * * * * * * * * * * * * * * * 
 //таймер
-const deadline   = '01 05 2023'; //начальная точка - !месяц - день - год!, строку в таком формате часто возвращают инпуты
+const deadline   = '06 30 2023'; //начальная точка - !месяц - день - год!, строку в таком формате часто возвращают инпуты
 //Функция, определяющая разницу между deadline и текущим временем
 const tInM = Date.parse(deadline), //парсим строку 
 tInUsualFormat =  new Date(tInM); //выводим из миллисек дату
@@ -767,7 +767,7 @@ setClock('.timer', deadline);
 
 // end таймер
 }
-module.exports = timer();
+module.exports = timer;
 
 /***/ })
 
@@ -819,7 +819,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
     modal();
     slider();
     timer();
+    
 });
+
 
 
 
