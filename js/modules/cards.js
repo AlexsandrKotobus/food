@@ -1,4 +1,6 @@
-﻿function cards(){
+﻿import { getResource } from "../services/services";
+
+function cards(){
     // ******************************************
     // КЛАССЫ ДЛЯ КАРТОЧЕК
     class MenuCard {
@@ -35,19 +37,8 @@
             this.parent.append(element);
         }
     }
-    //функция получения данных для карточек с сервера
-    const getResource = async (url) =>{
-        // мы делаем запрос по url
-        const res = await fetch(url);
-        if(!res.ok){
-            //добавим объект ошибки 
-            // Если мы выбрасываем ошибку в ручном режиме, у нас срабатывает блок кода catch()
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
-       //дожидаемся его окончания и ттрансформируем  его в объект
-        return await res.json();
-    };
-    //ЭТО РАБОЧАЯ ВЕРСИЯ генерации карточек !!!
+
+    // ЭТО РАБОЧАЯ ВЕРСИЯ генерации карточек !!!
     // вызов функции геренации карточек из bd.json на основе класса
     getResource('http://localhost:3000/menu')
         .then(data =>{
@@ -56,6 +47,15 @@
             });
         });
 
+        // async function getResource(url) {
+        //     let res = await fetch(url);
+        
+        //     if (!res.ok) {
+        //         throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        //     }
+        
+        //     return await res.json();
+        // }
 }
 // //*** БИБЛИОТЕКА Axios
 //     //переменная axios идет из подключенной библиотеки
@@ -67,4 +67,5 @@
 //                     new MenuCard(img, alting, title, descr, price, '.menu .container').render();
 //                 });
 //             });
-module.exports = cards;
+
+export default  cards;

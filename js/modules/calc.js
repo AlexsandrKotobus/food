@@ -2,11 +2,8 @@
 // * * * * * * * * 
 // К А Л Ь К У Л Я Т О Р 
 const result = document.querySelector('.calculating__result span'); //получаем место где будет записан результат
-
-
 //переменные для хранения данных - пока без дефолтных значений
 let sex, height, weight, age, ratio; //
-
  //добавляем проверку - есть ли данные по умолчанию sex в localStorage и если есть - устанавливаем их по дефолту
 if(localStorage.getItem('sex')){
     sex = localStorage.getItem('sex');
@@ -132,4 +129,4 @@ getDinamucInformation('#age');
 
 
 }
-module.exports = calc; 
+export default calc; 

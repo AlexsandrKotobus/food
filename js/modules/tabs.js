@@ -1,12 +1,12 @@
 ﻿// ТАБЫ
-function tabs(){
-        //табы
-        const tabs = document.querySelectorAll('.tabheader__item'),
-        tabsContent = document.querySelectorAll('.tabcontent'),
-        tabsParent = document.querySelector('.tabheader');
+function tabs(tabsSelector, tabsContentSeelctor, tabsParentSelector, activeclass){
+        //табы - агрументы пункты меню для переключения, тексты, весь блок меню, класс активности
+        const tabs = document.querySelectorAll(tabsSelector), //меню-для переключения
+        tabsContent = document.querySelectorAll(tabsContentSeelctor), //текстовая часть
+        tabsParent = document.querySelector(tabsParentSelector); //блок с меню для переключения
     function hideTabeContent(){
         tabs.forEach(item=>{
-            item.classList.remove('tabheader__item_active');
+            item.classList.remove(activeclass); //класс активности
         })
         tabsContent.forEach(item =>{
             item.style.display = 'none';
@@ -14,7 +14,7 @@ function tabs(){
     }
     function showTabContent(i = 0){
         tabsContent[i].style.display = "block";
-        tabs[i].classList.add('tabheader__item_active')
+        tabs[i].classList.add(tabsParentSelector)
     }
 
     hideTabeContent();
@@ -22,7 +22,7 @@ function tabs(){
         
     tabsParent.addEventListener('click', (event)=>{
     const target = event.target;
-    if(target&&target.classList.contains('tabheader__item')){
+    if(target&&target.classList.contains(tabsSelector.slice(1))){ //! класс активности минус точка
         tabs.forEach((item, i)=>{
             if(target==item){
                 //console.log(item);
@@ -34,4 +34,4 @@ function tabs(){
     });
 }
 
-module.exports = tabs; 
+export default  tabs; 

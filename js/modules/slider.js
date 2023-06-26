@@ -1,15 +1,16 @@
-﻿function slider(){
+﻿function slider({container, slide, nextArrow, prevArror, totalCounter, curentCounter, wrapper, field}){
 // **********************************
 //           СЛАЙДЕР №2 -карусель
 
-const   slides = document.querySelectorAll('.offer__slide'),    //количество слайдов
-        slider = document.querySelector('.offer__slider'),      //весь слайд - с индикаторами и слайдами
-        prev = document.querySelector('.offer__slider-prev'),   //кнопка пред
-        next = document.querySelector('.offer__slider-next'),   //кнопка следующий
-        total= document.querySelector('#total'),                // общее кол-во слайдов      
-        current = document.querySelector('#current'),           //индекс текущего слайда
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'), //главная обертка
-        slidesField = document.querySelector('.offer__slider-inner'),     //обертка слайдов
+
+const   slides = document.querySelectorAll(slide),    // слайд
+        slider = document.querySelector(container),   //все слайды - с индикаторами и слайдами
+        prev = document.querySelector(prevArror),   //кнопка пред
+        next = document.querySelector(nextArrow),   //кнопка следующий
+        total= document.querySelector(totalCounter),                // общее кол-во слайдов      
+        current = document.querySelector(curentCounter),           //индекс текущего слайда
+        slidesWrapper = document.querySelector(wrapper), //главная обертка
+        slidesField = document.querySelector(field),     //обертка слайдов
 
         //переменная будет хранить шрину внешнего блока .offer__slider-wrapper,  .match(/\d/g) - возвращает массив чисел, join('') - объединяет числа 
         // width = +(window.getComputedStyle(slidesWrapper).width).match(/\d/g).join('');  
@@ -194,4 +195,4 @@ function currentSl(slLenght, cur, slIn){
 }
        
 }
-module.exports = slider; 
+export default slider; 

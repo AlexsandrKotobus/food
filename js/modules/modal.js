@@ -1,53 +1,49 @@
-﻿function modal(){
-// модальное окно
- 
-const modalTrigger = document.querySelectorAll('[data-modal]'), // кнопки вызывающие модальное окно
-modal = document.querySelector('.modal'); //само модальное окно
-//modalCloseBtn = document.querySelector('[data-close]'); //кнопка закрытия модального окна УДАЛИЛИ для делегирования
- 
-
-function openModal(){
+﻿function openModal(modalSelector,  modalTimerId){ //открытие модального окна
+    const modal = document.querySelector(modalSelector); //само модальное окно
     modal.classList.add('show');
     modal.classList.remove('hide');
     document.body.style.overflow = 'hidden'; //фиксируем страницу
+    console.log(modalTimerId);
+    if(modalTimerId){ // Id был передан или он вообще существует, то только в таком случае надо запускать clearInterval(modalTimerId)
+        clearInterval(modalTimerId); //очистит таймер при  открытии модального окна
+    }
 }
-
-//открытие модального окна
-modalTrigger.forEach(btn=>{
-btn.addEventListener('click', openModal);
-});
-//функция для вызова модального окна черезопределенный момент времени
-
-
-
-
-function closeModal(){
-    modal.classList.add('hide');
+function closeModal(modalSelector){
+    const modal = document.querySelector(modalSelector); //само модальное окно    
+    modal.classList.add('hide'); //закрытие модального окна
     modal.classList.remove('show');
     document.body.style.overflow = ''; //разрешает скроллить страницу вновь
-    clearInterval(modalTimerId); //очистит таймер при  открытии модального окна
 }
 
-//закрытие модального окна
-// modalCloseBtn.addEventListener('click', closeModal); //!! функцию тут не вызвваем ,а просто передаем УДАЛИЛИ для делегирования
-   
-modal.addEventListener('click', (e)=>{
-    if(e.target === modal || e.target.getAttribute('data-close')==""){
-        closeModal(); //
-     }
-    });
 
-document.addEventListener('keydown', (e)=>{
-    if(e.code ==='Escape'){  //e.code ==='Escape'  - проверяем кнопку, проверяем открыто ли окно - оно открыто если содержит класс show 
-        // && modal.classList.contains('show')
-        closeModal(); //
-    }
+function modal(triggerSelector, modalSelector, modalTimerId){
+// модальное окно
+    const modalTrigger = document.querySelectorAll(triggerSelector), // кнопки вызывающие модальное окно
+    modal = document.querySelector(modalSelector); //само модальное окно
+    //modalCloseBtn = document.querySelector('[data-close]'); //кнопка закрытия модального окна УДАЛИЛИ для делегирования
+ 
 
-});
+        modalTrigger.forEach(btn=>{
+            btn.addEventListener('click', ()=> openModal(modalSelector, modalTimerId));
+            });
+            //функция для вызова модального окна через определенный момент времени
 
-//функция для вызова модального окна через ... секунд
-// 
-const modalTimerId = setTimeout(openModal, 50000);
+            // modalCloseBtn.addEventListener('click', closeModal); //!! функцию тут не вызваем ,а просто передаем УДАЛИЛИ для делегирования   
+            modal.addEventListener('click', (e)=>{
+                if(e.target === modal || e.target.getAttribute('data-close')==""){
+                    closeModal(modalSelector); //
+                }
+                });
+
+            document.addEventListener('keydown', (e)=>{
+                if(e.code ==='Escape'){  //e.code ==='Escape'  - проверяем кнопку, проверяем открыто ли окно - оно открыто если содержит класс show 
+                    // && modal.classList.contains('show')
+                    closeModal(modalSelector); //
+                }
+
+            });
+
+
 
 function showModalByScroll(){
     //window.pageYOffset  - прокрученная часть 
@@ -55,7 +51,7 @@ function showModalByScroll(){
         // >=document.documentElement.scrollHeight - высота скорлла
     
     if(window.pageYOffset + document.documentElement.clientHeight >=document.documentElement.scrollHeight){
-        openModal(); //первый раз показываем модальное окно
+        openModal(modalSelector, modalTimerId); //первый раз показываем модальное окно
         window.removeEventListener('scroll', showModalByScroll); //удаляем обработчик событий
     }
 }
@@ -94,8 +90,7 @@ function showModalByScroll(){
         .then(res => console.log(res));
 
 
-
-
-
 }
-module.exports = modal; 
+export default  modal; 
+export {closeModal};
+export {openModal};

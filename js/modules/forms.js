@@ -1,8 +1,9 @@
-function forms(){
+import { closeModal, openModal } from "./modal";
+import { postData } from "../services/services"; 
 
-    //053
-    //forms   - ответы JS_step_13
-    const forms = document.querySelectorAll('form'); //ищем все формы по тегу form 
+function forms(formSelector, modalTimerId){ //добавляем аргументы вместо селектора и +таймер-аргумент
+    //forms 
+    const forms = document.querySelectorAll(formSelector); //ищем все формы по переданному аргументу-селектору
     //message ответы
     const message = {
         loading: 'img/form/spinner.svg',
@@ -14,30 +15,6 @@ function forms(){
         bindpostData(item);
     });
 
-    //Функция для работы с сервером
-    //создадим переменную - postData, отвечающую за отправку данных
-    //а в ней агрументы - url - для fetch, и data - данные, которые будут поститься
-    //async - означает, что внутри функции у нас будет асинхронный код 
-    const postData = async (url, data) =>{
-        //в переменную res помещаем возвращенный fetch/чем промиc 
-        //настраиваем 
-        //парный оператор await - ставиться перед теми операциями, которые необходимо дождаться
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                //все будем постит в формате json (тк json-сервер)
-                'Content-type': 'application/json'
-            },
-            //data - данные, которые будут поститься
-            body: data
-        } );
-        //из ф-ции возвращаем res в json формате
-        //тут await чтобы получить json из промиса и только потом возратить его из функции
-        return await res.json();
-    };
-
-
-    
     //функция постинга данных - bindpostDate с параметром form - для дальнейшей привязки к обработчику событий
     function bindpostData(form){
         //событие submit срабатывает когда мы пытаемся отправить запол форму. 
@@ -89,7 +66,35 @@ function forms(){
         });
     }
 //end 053
+//054
+    //функция модального окна "Спасибо"
+    function showThanksModal(message){
+        const prevModalDialog = document.querySelector('.modal__dialog'); //находим модальное окно (с текстом)
+        prevModalDialog.classList.add('hide'); //скрываем окно имеющимся классом 
+        //теперь открываем пустой блок модального окна 
+        openModal('.modal', modalTimerId); //ф-ция открытия модального окна - с агрументами селектор, и идентификатор таймера
+        //создание контента модального окна спасибо
+        const thanksModal = document.createElement('div'); 
+        thanksModal.classList.add('modal__dialog');
+        //div class="modal__content" - класс обертка, ✖ - для закрытия, modal-title - заголовок, в которые мы должны поместить состояние загрузки
+        //с ✖ созданный динамически не будет реагировать на те действия, которые были созданны для него ранее
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class='modal__close' data-close>✖</div>
+                <div class='modal__title'>${message}</div>
+        </div>
+        `;
+        //получаем модальное окно и добавл на страницу
+        document.querySelector('.modal').append(thanksModal);
+        //удаляем окно-спасибо через 4с
+        setTimeout(()=>{thanksModal.remove();
+        prevModalDialog.classList.add('show'); //показываем модальное окно
+        prevModalDialog.classList.remove('hide'); //удаляем класс сокрытия модальное окно
+        closeModal('.modal'); //и закрываем модальное окно по селектору
+        },  4000);
+    }
+
 
 }
 
-module.exports = forms; 
+export default forms; 
